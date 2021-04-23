@@ -15,5 +15,17 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "import/extensions": 0,
+        "class-methods-use-this": "warn"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".ts",
+                    ".js"
+                ]
+            }
+        }
     }
 }
