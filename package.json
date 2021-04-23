@@ -1,0 +1,21 @@
+{
+  "name": "indeply-backend",
+  "version": "1.0.0",
+  "description": "This project wants to to show info about the INDEP (México) and make data visualization",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "INDEP",
+    "data-visualization",
+    "AWS",
+    "SQL",
+    "Google",
+    "Scheduler",
+    "Node",
+    "Express"
+  ],
+  "author": "UlisesSG",
+  "license": "MIT"
+}
