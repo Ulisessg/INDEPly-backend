@@ -4,7 +4,9 @@
   "description": "This project wants to to show info about the INDEP (México) and make data visualization",
   "main": "./src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "lint": "eslint --fix ./src/**/**"
   },
   "keywords": [
     "INDEP",
@@ -17,5 +19,14 @@
     "Express"
   ],
   "author": "UlisesSG",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
+    "eslint": "7.24.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "husky": "6.0.0",
+    "typescript": "4.2.4"
+  }
 }
