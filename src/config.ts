@@ -8,7 +8,7 @@ export const config = {
 
 export const dbConfig = {
   dbHost: process.env.ENDPOINT || '',
-  dbPort: process.env.DB_PORT || '',
+  dbPort: parseInt(<string>process.env.DB_PORT, 10),
   dbUsername: process.env.USERNAME || '',
   dbPassword: process.env.PASSWORD || '',
   dbName: process.env.DATABASE_NAME || '',
