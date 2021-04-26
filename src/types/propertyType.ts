@@ -1,5 +1,5 @@
 interface propertyType {
-  id: 1;
+  id?: number;
   NumeroSIAB: string;
   Estatus: string;
   DescripcionEstatus: string;

@@ -17,4 +17,17 @@ router.get('/', (req, res) => {
     });
 });
 
+router.post('/add-info', (req, res) => {
+  ctrl
+    .insert()
+    .then((response) => {
+      res.json({ error: false, message: response });
+    })
+    .catch((reason) => {
+      console.log(reason);
+
+      res.json({ error: true });
+    });
+});
+
 export default router;
