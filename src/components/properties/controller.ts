@@ -3,8 +3,9 @@
 import axios from 'axios';
 import { dbConfig } from '../../config';
 import propertyType from '../../types/propertyType';
-import queryInfo from '../../utils/queryInfo';
-import insertinfo from '../../utils/insertInfo';
+import SqlActions from '../../utils/sqlActions';
+
+const Actions = new SqlActions();
 
 const connectionConfig = {
   host: dbConfig.dbHost,
@@ -21,7 +22,7 @@ class PropertiesController {
       query,
     };
 
-    return queryInfo(config);
+    return Actions.queryInfo(config);
   }
 
   private insertMany(query: string, data: any) {
@@ -31,7 +32,7 @@ class PropertiesController {
       data,
     };
 
-    return insertinfo(insertManyConfig);
+    return Actions.insertInfo(insertManyConfig);
   }
 
   private requestIndepInfo() {
