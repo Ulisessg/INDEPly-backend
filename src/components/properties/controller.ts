@@ -42,7 +42,7 @@ class PropertiesController {
     );
   }
 
-  compareIndepData() {
+  private compareIndepData() {
     const indepInfo = this.requestIndepInfo();
     const dbData = this.getAllInfo('SELECT * FROM indeply_db.properties');
     const documentsLengt = this.getAllInfo(
