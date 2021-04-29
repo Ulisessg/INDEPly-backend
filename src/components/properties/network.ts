@@ -82,4 +82,19 @@ router.post('/add-info', (req, res) => {
   }
 });
 
+// Get the federal entities existing
+router.get('/federal-entitie', (req, res) => {
+  ctrl
+    .getAllInfo(
+      `SELECT EntidadFederativa FROM ${dbConfig.dbName}.properties GROUP BY EntidadFederativa`,
+    )
+    .then((data) => {
+      res.json({ error: false, message: data });
+    })
+    .catch((reason) => {
+      console.log(reason);
+      res.json({ error: true, message: 'Internal Server Error' });
+    });
+});
+
 export default router;
