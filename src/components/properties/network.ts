@@ -1,7 +1,7 @@
 /* eslint-disable operator-linebreak */
 import express from 'express';
 import Controller from './controller';
-import { auth } from '../../config';
+import { auth, dbConfig } from '../../config';
 
 const ctrl = new Controller();
 
@@ -22,20 +22,37 @@ router.get('/', (req, res) => {
     offset = '0';
   }
 
-  ctrl
-    .filterWithQuery(
-      <string | undefined>propertyType,
-      <string | undefined>federalEntity,
-      <string>limit,
-      <string>offset,
-    )
-    .then((info) => {
-      res.json({ error: false, data: info });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send({ error: true, message: 'Internal server error' });
-    });
+  if (
+    typeof propertyType === 'undefined' &&
+    typeof federalEntity === 'undefined'
+  ) {
+    ctrl
+      .getAllInfo(
+        `SELECT * FROM ${dbConfig.dbName}.properties LIMIT ${limit} OFFSET ${offset}`,
+      )
+      .then((info) => {
+        res.json({ error: false, data: info });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ error: true, message: 'Internal server error' });
+      });
+  } else {
+    ctrl
+      .filterWithQuery(
+        <string | undefined>propertyType,
+        <string | undefined>federalEntity,
+        <string>limit,
+        <string>offset,
+      )
+      .then((info) => {
+        res.json({ error: false, data: info });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ error: true, message: 'Internal server error' });
+      });
+  }
 });
 
 // Insert Info in DB
