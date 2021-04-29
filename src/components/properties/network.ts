@@ -1,5 +1,7 @@
+/* eslint-disable operator-linebreak */
 import express from 'express';
 import Controller from './controller';
+import { auth } from '../../config';
 
 const ctrl = new Controller();
 
@@ -18,16 +20,29 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add-info', (req, res) => {
-  ctrl
-    .insert()
-    .then((response) => {
-      res.json({ error: false, message: response });
-    })
-    .catch((reason) => {
-      console.log(reason);
+  const { email } = req.body;
+  const { emailPassword } = req.body;
 
-      res.json({ error: true });
-    });
+  // Security check
+  if (
+    typeof email !== typeof '' ||
+    typeof emailPassword !== typeof '' ||
+    email !== auth.email ||
+    emailPassword !== auth.emailPassword
+  ) {
+    res.json({ error: true, message: 'Internal server error' });
+  } else {
+    ctrl
+      .insert()
+      .then((response) => {
+        res.json({ error: false, message: response });
+      })
+      .catch((reason) => {
+        console.log(reason);
+
+        res.json({ error: true });
+      });
+  }
 });
 
 export default router;
