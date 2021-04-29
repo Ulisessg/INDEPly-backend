@@ -97,4 +97,19 @@ router.get('/federal-entitie', (req, res) => {
     });
 });
 
+// Get the properties types existing
+router.get('/property-types', (req, res) => {
+  ctrl
+    .getAllInfo(
+      `SELECT TipoInmueble FROM ${dbConfig.dbName}.properties GROUP BY TipoInmueble`,
+    )
+    .then((data) => {
+      res.json({ error: false, message: data });
+    })
+    .catch((reason) => {
+      console.log(reason);
+      res.json({ error: true, message: 'Internal Server Error' });
+    });
+});
+
 export default router;
