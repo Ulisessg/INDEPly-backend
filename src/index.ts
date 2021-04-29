@@ -1,8 +1,11 @@
 import Express, { json, urlencoded } from 'express';
+import helmet from 'helmet';
 import propertiesRoute from './components/properties/network';
 import { config } from './config';
 
 const app = Express();
+
+app.use(helmet());
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
