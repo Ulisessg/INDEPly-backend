@@ -3,7 +3,7 @@ import env from 'dotenv';
 env.config();
 
 export const config = {
-  port: process.env.PORT || 8080,
+  port: process.env.PORT || 3000,
 };
 
 export const auth = {
