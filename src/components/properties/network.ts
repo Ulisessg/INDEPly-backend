@@ -7,9 +7,28 @@ const ctrl = new Controller();
 
 const router = express.Router();
 
+// Get info
 router.get('/', (req, res) => {
+  const { propertyType } = req.query;
+  const { federalEntity } = req.query;
+  let { limit } = req.query;
+  let { offset } = req.query;
+
+  if (typeof limit === 'undefined') {
+    limit = '10';
+  }
+
+  if (typeof offset === 'undefined') {
+    offset = '0';
+  }
+
   ctrl
-    .getAllInfo('SELECT * FROM indeply_db.properties')
+    .filterWithQuery(
+      <string | undefined>propertyType,
+      <string | undefined>federalEntity,
+      <string>limit,
+      <string>offset,
+    )
     .then((info) => {
       res.json({ error: false, data: info });
     })
@@ -19,6 +38,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// Insert Info in DB
 router.post('/add-info', (req, res) => {
   const { email } = req.body;
   const { emailPassword } = req.body;

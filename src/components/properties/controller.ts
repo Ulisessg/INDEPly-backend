@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable array-callback-return */
 /* eslint-disable class-methods-use-this */
 import axios from 'axios';
@@ -91,6 +92,46 @@ class PropertiesController {
         }
       });
     });
+  }
+
+  filterWithQuery(
+    propertyTypeQuery: string | undefined,
+    federalEntityQuery: string | undefined,
+    limit: string,
+    offset: string,
+  ) {
+    // Check the query have something
+    if (
+      typeof propertyTypeQuery === 'undefined' &&
+      typeof federalEntityQuery === 'undefined'
+    ) {
+      return new Promise((resolve, reject) => {
+        reject(new Error('Invalid query'));
+      });
+    }
+
+    let queryFilter: string = '';
+    // Filters
+    if (
+      // Property type
+      typeof propertyTypeQuery === 'string' &&
+      typeof federalEntityQuery === 'undefined'
+    ) {
+      queryFilter = `TipoInmueble = "${propertyTypeQuery}"`;
+    } else if (
+      typeof federalEntityQuery === 'string' &&
+      typeof propertyTypeQuery === 'undefined'
+    ) {
+      // Federal entity
+      queryFilter = `EntidadFederativa = "${federalEntityQuery}"`;
+    } else {
+      // Both filters
+      queryFilter = `TipoInmueble = "${propertyTypeQuery}" AND EntidadFederativa = "${federalEntityQuery}"`;
+    }
+
+    const fullQuery: string = `SELECT * FROM ${dbConfig.dbName}.properties WHERE ${queryFilter} LIMIT ${limit} OFFSET ${offset}`;
+
+    return this.getAllInfo(fullQuery);
   }
 }
 
