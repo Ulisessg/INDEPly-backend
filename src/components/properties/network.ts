@@ -112,4 +112,19 @@ router.get('/property-types', (req, res) => {
     });
 });
 
+router.get('/current', (req, res) => {
+  // Three posible filters: Municipios, federal entities, properties types
+  const { filter } = req.body;
+
+  ctrl
+    .mostRecurrent(filter)
+    .then((data: any) => {
+      res.json({ error: false, message: data });
+    })
+    .catch((reason) => {
+      console.log(reason);
+      res.json({ error: true, message: 'Internal Server Error' });
+    });
+});
+
 export default router;

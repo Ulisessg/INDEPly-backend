@@ -133,6 +133,41 @@ class PropertiesController {
 
     return this.getAllInfo(fullQuery);
   }
+
+  mostRecurrent(filter: string | undefined) {
+    if (typeof filter === 'undefined') {
+      return new Promise((resolve, reject) => {
+        reject(
+          new Error(
+            `Error: bad query, filter type = ${typeof filter}, check query params`,
+          ),
+        );
+      });
+    }
+
+    const queryData = this.getAllInfo(
+      `SELECT ${filter}, COUNT(${filter}) from ${dbConfig.dbName}.properties GROUP BY ${filter}`,
+    );
+
+    // Just accept 'TipoInmueble', 'EntidadFederativa' or 'Municipio'
+    if (filter === 'TipoInmueble') {
+      return queryData;
+    }
+    if (filter === 'EntidadFederativa') {
+      return queryData;
+    }
+    if (filter === 'Municipio') {
+      return queryData;
+    }
+
+    return new Promise((resolve, reject) => {
+      reject(
+        new Error(
+          `Error: bad query, filter type = ${typeof filter}, check query params`,
+        ),
+      );
+    });
+  }
 }
 
 export default PropertiesController;
