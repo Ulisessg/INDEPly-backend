@@ -108,7 +108,7 @@ router.get('/property-types', (req, res) => {
     });
 });
 
-router.get('/current', (req, res) => {
+router.get('/data-comparation', (req, res) => {
   // Three posible filters: Municipios, federal entities, properties types
   const { filter } = req.body;
 
