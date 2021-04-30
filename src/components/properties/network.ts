@@ -2,7 +2,9 @@
 import express from 'express';
 import Controller from './controller';
 import { auth, dbConfig } from '../../config';
+import Responses from '../../utils/Responses';
 
+const Response = new Responses();
 const ctrl = new Controller();
 
 const router = express.Router();
@@ -31,11 +33,10 @@ router.get('/', (req, res) => {
         `SELECT * FROM ${dbConfig.dbName}.properties LIMIT ${limit} OFFSET ${offset}`,
       )
       .then((info) => {
-        res.json({ error: false, data: info });
+        Response.success(req, res, info);
       })
       .catch((err) => {
-        console.log(err);
-        res.send({ error: true, message: 'Internal server error' });
+        Response.error(req, res, err);
       });
   } else {
     ctrl
@@ -46,11 +47,10 @@ router.get('/', (req, res) => {
         <string>offset,
       )
       .then((info) => {
-        res.json({ error: false, data: info });
+        Response.success(req, res, info);
       })
       .catch((err) => {
-        console.log(err);
-        res.send({ error: true, message: 'Internal server error' });
+        Response.error(req, res, err);
       });
   }
 });
@@ -62,22 +62,20 @@ router.post('/add-info', (req, res) => {
 
   // Security check
   if (
-    typeof email !== typeof '' ||
-    typeof emailPassword !== typeof '' ||
+    typeof email === 'undefined' ||
+    typeof emailPassword === 'undefined' ||
     email !== auth.email ||
     emailPassword !== auth.emailPassword
   ) {
-    res.json({ error: true, message: 'Internal server error' });
+    Response.error(req, res, 'Security check failed');
   } else {
     ctrl
       .insert()
-      .then((response) => {
-        res.json({ error: false, message: response });
+      .then((data) => {
+        Response.success(req, res, data);
       })
       .catch((reason) => {
-        console.log(reason);
-
-        res.json({ error: true });
+        Response.error(req, res, reason);
       });
   }
 });
@@ -89,11 +87,10 @@ router.get('/federal-entitie', (req, res) => {
       `SELECT EntidadFederativa FROM ${dbConfig.dbName}.properties GROUP BY EntidadFederativa`,
     )
     .then((data) => {
-      res.json({ error: false, message: data });
+      Response.success(req, res, data);
     })
     .catch((reason) => {
-      console.log(reason);
-      res.json({ error: true, message: 'Internal Server Error' });
+      Response.error(req, res, reason);
     });
 });
 
@@ -104,11 +101,10 @@ router.get('/property-types', (req, res) => {
       `SELECT TipoInmueble FROM ${dbConfig.dbName}.properties GROUP BY TipoInmueble`,
     )
     .then((data) => {
-      res.json({ error: false, message: data });
+      Response.success(req, res, data);
     })
     .catch((reason) => {
-      console.log(reason);
-      res.json({ error: true, message: 'Internal Server Error' });
+      Response.error(req, res, reason);
     });
 });
 
@@ -119,11 +115,10 @@ router.get('/current', (req, res) => {
   ctrl
     .mostRecurrent(filter)
     .then((data: any) => {
-      res.json({ error: false, message: data });
+      Response.success(req, res, data);
     })
     .catch((reason) => {
-      console.log(reason);
-      res.json({ error: true, message: 'Internal Server Error' });
+      Response.error(req, res, reason);
     });
 });
 
